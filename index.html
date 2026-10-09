@@ -97,13 +97,13 @@
     }
     .hero-olive{
       position:absolute;
-      right:0;
-      top:0;
-      width:180px;
-      max-height:100%;
+      right:-34px;
+      top:4px;
+      width:120px;
+      max-height:calc(100% - 8px);
       object-fit:contain;
-      object-position:right top;
-      opacity:.72;
+      object-position:right center;
+      opacity:.68;
       z-index:1;
       pointer-events:none;
     }
@@ -443,13 +443,13 @@
     }
     .footer-olive{
       position:absolute;
-      right:0;
+      right:-38px;
       bottom:0;
-      width:145px;
-      max-height:100%;
+      width:112px;
+      max-height:72%;
       object-fit:contain;
       object-position:right bottom;
-      opacity:.7;
+      opacity:.60;
       z-index:1;
       pointer-events:none;
     }
@@ -461,7 +461,7 @@
       .hero-copy{padding-left:28px}
       .hero-copy .kicker{font-size:11px;max-width:none}
       .hero-copy h1{font-size:58px}
-      .hero-olive{width:330px;right:0;top:0}
+      .hero-olive{width:245px;right:-62px;top:0;max-height:100%;opacity:.66}
       main{padding:34px 20px 0}
       .intro{padding-bottom:24px}
       .intro h2{font-size:56px}
@@ -482,11 +482,12 @@
       .developer{font-size:12px}.developer-name{font-size:26px}
       .social-card{font-size:11px;min-height:42px;padding:9px 12px}
       .footer-logo{width:88px;left:18px;bottom:18px}
-      .footer-olive{width:260px;right:0;bottom:0}
+      .footer-olive{width:210px;right:-58px;bottom:0;max-height:78%;opacity:.58}
     }
 
     @media(max-width:360px){
-      .hero-copy h1{font-size:27px}
+      .hero-copy h1{font-size:26px}
+      .hero-olive{width:108px;right:-40px}
       .hero-logo{width:68px;min-width:68px}
       .hero-copy{padding-left:10px}
       .intro h2{font-size:31px}
