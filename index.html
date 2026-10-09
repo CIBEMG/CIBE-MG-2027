@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#3d3a1f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Gerador de Foto de Perfil | CIBE - MG 2027</title>
+
+  <!-- HEIC/HEIF support -->
+  <script src="https://cdn.jsdelivr.net/npm/heic2any/dist/heic2any.min.js"></script>
+
+  <style>
+    :root{
+      --green-950:#292815;
+      --green-900:#35341b;
+      --green-800:#444221;
+      --green-700:#55522a;
+      --gold-500:#d8b56c;
+      --gold-400:#e6c985;
+      --gold-300:#f0daa6;
+      --beige-100:#efe6d7;
+      --beige-200:#dcc8aa;
+      --beige-300:#cdb38f;
+      --ink:#3d392d;
+      --muted:#6e6757;
+      --white:#fff;
+      --danger:#a53028;
+      --radius-xl:28px;
+      --radius-lg:18px;
+      --radius-md:12px;
+      --shadow-lg:0 24px 60px rgba(30,27,14,.18);
+      --shadow-md:0 14px 34px rgba(30,27,14,.15);
+      --shadow-sm:0 8px 20px rgba(30,27,14,.10);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100%;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 20% 5%, rgba(255,255,255,.20), transparent 28%),
+        linear-gradient(180deg, #cab18c 0%, #c8ae87 48%, #8f7f60 74%, var(--green-950) 100%);
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.12;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,.55) 1px, transparent 1px);
+      background-size:24px 24px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), transparent 45%);
+    }
+    img{display:block;max-width:100%}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    a{text-decoration:none;color:inherit}
+
+    .site-shell{position:relative;overflow:hidden}
+
+    /* HERO */
+    .hero{
+      position:relative;
+      min-height:255px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.025), transparent 48%),
+        var(--green-900);
+      overflow:hidden;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      box-shadow:0 8px 26px rgba(33,31,15,.18);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:-1px;
+      height:34px;
+      background:linear-gradient(180deg, transparent, rgba(0,0,0,.08));
+      opacity:.25;
+    }
+    .hero-inner{
+      width:min(1180px, calc(100% - 32px));
+      margin:auto;
+      min-height:255px;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 120px;
+    }
+    .hero-logo{
+      position:absolute;
+      left:6px;
+      top:30px;
+      width:128px;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,.16));
+      z-index:3;
+    }
+    .hero-olive{
+      position:absolute;
+      right:-20px;
+      top:-8px;
+      width:min(410px, 38vw);
+      opacity:.9;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,.08));
+      z-index:1;
+    }
+    .hero-copy{position:relative;z-index:2;text-align:center}
+    .hero-copy .kicker{
+      margin:0 0 10px;
+      color:var(--gold-300);
+      letter-spacing:.28em;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+    }
+    .hero-copy h1{
+      margin:0;
+      font-family:Georgia, "Times New Roman", serif;
+      font-weight:500;
+      color:var(--gold-400);
+      font-size:clamp(42px, 6vw, 82px);
+      letter-spacing:.02em;
+      text-shadow:0 2px 0 rgba(0,0,0,.08), 0 12px 36px rgba(0,0,0,.12);
+    }
+
+    main{
+      width:min(1050px, calc(100% - 28px));
+      margin:42px auto 0;
+      position:relative;
+      z-index:2;
+    }
+    .intro{
+      max-width:860px;
+      margin-bottom:26px;
+      text-align:left;
+    }
+    .intro .eyebrow{
+      margin:0 0 8px;
+      color:var(--green-800);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:12px;
+    }
+    .intro h2{
+      margin:0 0 12px;
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(40px, 5vw, 64px);
+      font-weight:600;
+      line-height:1.02;
+      color:#fffaf1;
+      text-shadow:0 3px 14px rgba(68,61,43,.24);
+    }
+    .intro h3{
+      margin:0 0 14px;
+      max-width:840px;
+      color:var(--green-900);
+      font-size:clamp(18px,2.3vw,31px);
+      line-height:1.15;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .intro p{margin:0;color:#4f493b;font-size:clamp(16px,1.8vw,22px);line-height:1.5}
+
+    /* PREMIUM CARD */
+    .editor-card{
+      position:relative;
+      border:1px solid rgba(255,255,255,.28);
+      background:linear-gradient(180deg, rgba(255,255,255,.36), rgba(255,255,255,.20));
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-radius:var(--radius-xl);
+      padding:24px;
+      box-shadow:var(--shadow-lg);
+      overflow:hidden;
+    }
+    .editor-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      pointer-events:none;
+      background:linear-gradient(135deg, rgba(255,255,255,.18), transparent 35%, transparent 65%, rgba(216,181,108,.08));
+    }
+    .editor-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:minmax(0, 1.08fr) minmax(300px, .92fr);
+      gap:24px;
+      align-items:start;
+    }
+    .preview-pane,.control-pane{
+      border-radius:22px;
+      background:rgba(255,255,255,.35);
+      border:1px solid rgba(255,255,255,.34);
+      box-shadow:var(--shadow-sm);
+    }
+    .preview-pane{padding:18px}
+    .control-pane{padding:20px}
+
+    .pane-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .pane-header strong{font-size:18px;color:var(--green-950)}
+    .size-pill{
+      border:1px solid rgba(67,64,34,.16);
+      background:rgba(255,255,255,.45);
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.06em;
+      color:var(--green-800);
+      white-space:nowrap;
+    }
+
+    .canvas-wrap{
+      position:relative;
+      width:100%;
+      aspect-ratio:1;
+      overflow:hidden;
+      border-radius:18px;
+      background:
+        linear-gradient(45deg,#f4efe6 25%,transparent 25%),
+        linear-gradient(-45deg,#f4efe6 25%,transparent 25%),
+        linear-gradient(45deg,transparent 75%,#f4efe6 75%),
+        linear-gradient(-45deg,transparent 75%,#f4efe6 75%),
+        #ebe1d2;
+      background-size:26px 26px;
+      background-position:0 0,0 13px,13px -13px,-13px 0;
+      border:1px solid rgba(67,64,34,.10);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.65), 0 16px 28px rgba(46,42,23,.16);
+    }
+    #canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+    #canvas:active{cursor:grabbing}
+    .canvas-badge{
+      position:absolute;
+      left:12px;
+      bottom:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(53,52,27,.86);
+      color:var(--gold-300);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.03em;
+      backdrop-filter:blur(8px);
+      pointer-events:none;
+    }
+
+    .status{
+      min-height:22px;
+      margin:12px 0 0;
+      color:#554f3f;
+      font-size:13px;
+      font-weight:700;
+      line-height:1.45;
+      text-align:center;
+    }
+    .status.error{color:var(--danger)}
+
+    .upload-zone{
+      border:1.5px dashed rgba(68,66,33,.28);
+      background:rgba(255,255,255,.24);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:16px;
+      text-align:center;
+      transition:.18s ease;
+    }
+    .upload-zone.dragover{
+      border-color:var(--gold-500);
+      background:rgba(216,181,108,.18);
+      transform:translateY(-1px);
+    }
+    .upload-zone .upload-icon{
+      width:42px;height:42px;
+      display:grid;place-items:center;
+      margin:0 auto 8px;
+      border-radius:50%;
+      background:var(--green-900);
+      color:var(--gold-400);
+      box-shadow:0 8px 20px rgba(48,46,24,.18);
+    }
+    .upload-zone strong{display:block;margin-bottom:4px;color:var(--green-950);font-size:15px}
+    .upload-zone span{display:block;color:#6a6456;font-size:12px;line-height:1.4}
+
+    .button{
+      width:100%;
+      min-height:52px;
+      border-radius:13px;
+      border:2px solid var(--gold-500);
+      background:linear-gradient(180deg,var(--green-800),var(--green-900));
+      color:var(--gold-400);
+      font-weight:900;
+      letter-spacing:.055em;
+      padding:12px 16px;
+      box-shadow:0 8px 18px rgba(43,41,20,.16);
+      transition:transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+    .button:hover,.button:focus-visible,.button:active{
+      background:linear-gradient(180deg,var(--gold-400),var(--gold-500));
+      color:var(--green-900);
+      border-color:var(--green-900);
+      transform:translateY(-1px);
+      box-shadow:0 10px 22px rgba(43,41,20,.18);
+      outline:none;
+    }
+    .button:disabled{opacity:.46;cursor:not-allowed;transform:none;box-shadow:none}
+    .button.secondary{background:rgba(53,52,27,.90)}
+    .button.small{min-height:44px;padding:8px 10px;border-radius:11px}
+
+    .controls{display:none}
+    .controls.visible{display:block}
+    .control-block{margin-top:16px;padding-top:16px;border-top:1px solid rgba(68,66,33,.14)}
+    .control-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .control-title strong{font-size:14px;color:var(--green-950)}
+    .control-title span{font-size:12px;color:#6c6658}
+    .zoom-row{display:flex;align-items:center;gap:9px}
+    .zoom-row input[type="range"]{flex:1;accent-color:var(--green-800);min-width:0}
+    .zoom-value{min-width:48px;text-align:right;font-weight:900;color:var(--green-900);font-size:12px}
+    .icon-button{
+      width:44px;min-width:44px;height:44px;
+      display:grid;place-items:center;
+      border-radius:11px;
+      border:2px solid var(--gold-500);
+      background:var(--green-900);
+      color:var(--gold-400);
+      font-size:20px;
+      font-weight:900;
+      transition:.16s ease;
+    }
+    .icon-button:hover,.icon-button:focus-visible,.icon-button:active{
+      background:var(--gold-500);color:var(--green-900);border-color:var(--green-900);outline:none
+    }
+    .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .hint-box{
+      margin-top:14px;
+      padding:12px 13px;
+      border-radius:12px;
+      background:rgba(53,52,27,.08);
+      color:#5d5749;
+      font-size:12px;
+      line-height:1.55;
+    }
+    .download-wrap{margin-top:14px}
+
+    .loader{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      margin-top:10px;
+      font-size:12px;
+      font-weight:800;
+      color:var(--green-900);
+    }
+    .loader.visible{display:flex}
+    .spinner{
+      width:18px;height:18px;border-radius:50%;
+      border:2px solid rgba(53,52,27,.18);
+      border-top-color:var(--green-900);
+      animation:spin .8s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* FOOTER */
+    .footer{
+      position:relative;
+      margin-top:68px;
+      background:var(--green-900);
+      color:var(--gold-400);
+      overflow:hidden;
+      border-top:1px solid rgba(255,255,255,.07);
+    }
+    .footer::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 50% 0%, rgba(255,255,255,.045), transparent 38%);
+      pointer-events:none;
+    }
+    .footer-inner{
+      position:relative;
+      z-index:2;
+      width:min(1160px,calc(100% - 28px));
+      margin:auto;
+      padding:46px 132px 40px;
+      text-align:center;
+    }
+    .footer-logo{
+      position:absolute;
+      left:18px;
+      bottom:20px;
+      width:120px;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,.14));
+      z-index:2;
+    }
+    .footer-olive{
+      position:absolute;
+      right:-20px;
+      bottom:-12px;
+      width:min(360px,36vw);
+      opacity:.92;
+      z-index:1;
+    }
+    .footer-president{
+      margin:0 0 18px;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(24px,2.5vw,42px);
+      font-weight:500;
+      color:var(--gold-300);
+    }
+    .footer-line{height:1px;background:linear-gradient(90deg,transparent,rgba(216,181,108,.45),transparent);margin:20px auto;max-width:760px}
+    .developer{margin:0;color:var(--gold-300);font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+    .developer-name{display:block;margin-top:5px;font-family:Georgia,"Times New Roman",serif;font-size:26px;text-transform:none;letter-spacing:0}
+    .socials{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:860px;margin:24px auto 0}
+    .social-card{
+      min-height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(216,181,108,.36);
+      background:rgba(255,255,255,.025);
+      color:var(--gold-300);
+      font-weight:800;
+      transition:.16s ease;
+    }
+    .social-card:hover,.social-card:focus-visible{
+      background:var(--gold-500);
+      color:var(--green-900);
+      transform:translateY(-2px);
+      outline:none;
+    }
+    .social-card svg{width:20px;height:20px;flex:none}
+    .dev-instagram{margin-top:12px;display:inline-flex}
+    .footer-note{margin:18px 0 0;color:#d9c9a6;font-size:11px;line-height:1.6;opacity:.92}
+
+    @media(max-width:900px){
+      .hero-inner{padding-inline:90px}
+      .hero-logo{width:102px}
+      .editor-grid{grid-template-columns:1fr}
+      .control-pane{order:2}
+      .footer-inner{padding-inline:100px}
+      .footer-logo{width:96px}
+      .socials{grid-template-columns:1fr}
+    }
+    @media(max-width:640px){
+      .hero{min-height:190px}
+      .hero-inner{min-height:190px;padding:22px 60px}
+      .hero-logo{left:0;top:18px;width:76px}
+      .hero-olive{width:190px;right:-35px;top:3px}
+      .hero-copy .kicker{font-size:10px;letter-spacing:.18em}
+      .hero-copy h1{font-size:42px}
+      main{margin-top:26px;width:min(100% - 18px,100%)}
+      .intro{margin-bottom:18px}
+      .intro h2{font-size:42px}
+      .intro h3{font-size:17px}
+      .intro p{font-size:16px}
+      .editor-card{padding:12px;border-radius:20px}
+      .preview-pane,.control-pane{padding:13px;border-radius:16px}
+      .pane-header{align-items:flex-start;flex-direction:column}
+      .canvas-wrap{border-radius:14px}
+      .action-grid{grid-template-columns:1fr}
+      .footer-inner{padding:34px 18px 108px}
+      .footer-logo{width:76px;left:12px;bottom:12px}
+      .footer-olive{width:190px;right:-35px;bottom:-14px}
+      .footer-president{font-size:27px}
+      .developer-name{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+<div class="site-shell">
+  <header class="hero">
+    <div class="hero-inner">
+      <img class="hero-logo" src="imagens/CIBE.PNG" alt="CIBE MG" onerror="this.style.display='none'">
+      <img class="hero-olive" src="imagens/oliva.png" alt="Folhas de oliveira" onerror="this.style.display='none'">
+      <div class="hero-copy">
+        <p class="kicker">Confederação de Irmãs Beneficentes Evangélicas</p>
+        <h1>CIBE - MG 2027</h1>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Gerador oficial de foto de perfil</p>
+      <h2>CIBE - MG 2027</h2>
+      <h3>Confederação de Irmãs Beneficentes Evangélicas de Minas Gerais</h3>
+      <p>Escolha sua foto, ajuste o enquadramento e baixe uma imagem pronta em 1080 × 1080.</p>
+    </section>
+
+    <section class="editor-card" aria-label="Gerador de foto de perfil CIBE MG 2027">
+      <div class="editor-grid">
+        <div class="preview-pane">
+          <div class="pane-header">
+            <strong>Prévia da sua foto</strong>
+            <span class="size-pill">PERFIL · 1080 × 1080</span>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="canvas" width="1080" height="1080" aria-label="Prévia da foto de perfil"></canvas>
+            <div class="canvas-badge">Arraste para reposicionar</div>
+          </div>
+          <p class="status" id="status" role="status" aria-live="polite">Carregando a moldura...</p>
+          <div class="loader" id="loader"><span class="spinner" aria-hidden="true"></span><span id="loader-text">Processando imagem...</span></div>
+        </div>
+
+        <div class="control-pane">
+          <input type="file" id="file" accept=".jpg,.jpeg,.png,.heic,.heif,image/jpeg,image/png,image/heic,image/heif" hidden>
+
+          <div class="upload-zone" id="drop-zone" tabindex="0" role="button" aria-label="Selecionar uma foto">
+            <div class="upload-icon" aria-hidden="true">↑</div>
+            <strong>Escolha sua foto</strong>
+            <span>JPG, JPEG, PNG e HEIC/HEIF<br>ou arraste o arquivo para esta área.</span>
+          </div>
+
+          <button class="button" id="choose" type="button">ESCOLHER MINHA FOTO</button>
+
+          <div class="controls" id="controls">
+            <div class="control-block">
+              <div class="control-title">
+                <strong>Zoom</strong>
+                <span>Use a barra ou os botões</span>
+              </div>
+              <div class="zoom-row">
+                <button class="icon-button" id="minus" type="button" aria-label="Diminuir zoom">−</button>
+                <input id="zoom" type="range" min="100" max="400" step="1" value="100" aria-label="Zoom da foto">
+                <button class="icon-button" id="plus" type="button" aria-label="Aumentar zoom">+</button>
+                <span class="zoom-value" id="zoom-label">100%</span>
+              </div>
+
+              <div class="action-grid">
+                <button class="button small secondary" id="reset" type="button">REDEFINIR AJUSTES</button>
+                <button class="button small secondary" id="replace" type="button">TROCAR FOTO</button>
+              </div>
+
+              <div class="hint-box">
+                Dica: arraste a foto com o mouse ou com o dedo. O sistema limita o movimento para reduzir áreas vazias no quadro.
+              </div>
+            </div>
+          </div>
+
+          <div class="download-wrap">
+            <button class="button" id="download" type="button" disabled>BAIXAR FOTO DE PERFIL · PNG</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img class="footer-logo" src="imagens/CIBE.PNG" alt="CIBE MG" onerror="this.style.display='none'">
+    <img class="footer-olive" src="imagens/oliva.png" alt="Folhas de oliveira" onerror="this.style.display='none'">
+
+    <div class="footer-inner">
+      <h3 class="footer-president">Presidente Pastora Elizângela Neves</h3>
+      <div class="footer-line"></div>
+
+      <p class="developer">Desenvolvido por <span class="developer-name">David Amorim</span></p>
+
+      <div class="socials" aria-label="Redes sociais">
+        <a class="social-card" href="https://www.instagram.com/cibe.mg/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da CIBE MG">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @cibe.mg
+        </a>
+        <a class="social-card" href="https://www.instagram.com/_elizangelaneves/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Pastora Elizângela Neves">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @_elizangelaneves
+        </a>
+        <a class="social-card" href="https://www.instagram.com/_david__amorim_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de David Amorim">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          @_david__amorim_
+        </a>
+      </div>
+
+      <p class="footer-note">Sua foto é processada no próprio navegador. Nenhuma imagem é enviada para este site.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+'use strict';
+
+const FRAME_PATH = 'imagens/perfil.png';
+const SIZE = 1080;
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const fileInput = document.getElementById('file');
+const chooseBtn = document.getElementById('choose');
+const replaceBtn = document.getElementById('replace');
+const resetBtn = document.getElementById('reset');
+const minusBtn = document.getElementById('minus');
+const plusBtn = document.getElementById('plus');
+const zoomSlider = document.getElementById('zoom');
+const zoomLabel = document.getElementById('zoom-label');
+const downloadBtn = document.getElementById('download');
+const controls = document.getElementById('controls');
+const statusEl = document.getElementById('status');
+const loader = document.getElementById('loader');
+const loaderText = document.getElementById('loader-text');
+const dropZone = document.getElementById('drop-zone');
+
+let frame = null;
+let photo = null;
+let photoURL = null;
+let scale = 1;
+let panX = 0;
+let panY = 0;
+let dragging = false;
+let startX = 0;
+let startY = 0;
+let baseX = 0;
+let baseY = 0;
+
+function setStatus(message, error=false){
+  statusEl.textContent = message;
+  statusEl.classList.toggle('error', error);
+}
+function setLoading(active, message='Processando imagem...'){
+  loader.classList.toggle('visible', active);
+  loaderText.textContent = message;
+}
+function updateDownloadState(){
+  downloadBtn.disabled = !(frame && photo);
+}
+function getBaseRatio(){
+  if(!photo) return 1;
+  return Math.max(SIZE / photo.naturalWidth, SIZE / photo.naturalHeight);
+}
+function clampPan(){
+  if(!photo) return;
+  const ratio = getBaseRatio() * scale;
+  const w = photo.naturalWidth * ratio;
+  const h = photo.naturalHeight * ratio;
+  const maxX = Math.max(0, (w - SIZE) / 2);
+  const maxY = Math.max(0, (h - SIZE) / 2);
+  panX = Math.max(-maxX, Math.min(maxX, panX));
+  panY = Math.max(-maxY, Math.min(maxY, panY));
+}
+function draw(){
+  ctx.clearRect(0,0,SIZE,SIZE);
+  ctx.fillStyle = '#ece4d8';
+  ctx.fillRect(0,0,SIZE,SIZE);
+
+  if(photo){
+    clampPan();
+    const ratio = getBaseRatio() * scale;
+    const w = photo.naturalWidth * ratio;
+    const h = photo.naturalHeight * ratio;
+    ctx.drawImage(photo, (SIZE-w)/2 + panX, (SIZE-h)/2 + panY, w, h);
+  } else {
+    const grad = ctx.createLinearGradient(0,0,SIZE,SIZE);
+    grad.addColorStop(0,'#eee5d8');
+    grad.addColorStop(1,'#d9c8ae');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,SIZE,SIZE);
+    ctx.fillStyle = '#756b58';
+    ctx.textAlign = 'center';
+    ctx.font = '700 36px Arial';
+    ctx.fillText('SUA FOTO AQUI', SIZE/2, SIZE/2 - 4);
+    ctx.font = '500 22px Arial';
+    ctx.fillText('Escolha uma imagem para começar', SIZE/2, SIZE/2 + 38);
+  }
+  if(frame) ctx.drawImage(frame,0,0,SIZE,SIZE);
+}
+function loadFrame(){
+  const img = new Image();
+  img.onload = () => {
+    frame = img;
+    draw();
+    updateDownloadState();
+    setStatus(photo ? 'Arraste a foto para ajustar o enquadramento.' : 'Moldura carregada. Escolha sua foto para começar.');
+  };
+  img.onerror = () => {
+    frame = null;
+    draw();
+    updateDownloadState();
+    setStatus('Moldura não encontrada. Adicione imagens/perfil.png.', true);
+  };
+  img.src = FRAME_PATH + '?v=' + Date.now();
+}
+function resetAdjustments(){
+  scale = 1; panX = 0; panY = 0;
+  zoomSlider.value = '100';
+  zoomLabel.textContent = '100%';
+  draw();
+}
+function setZoom(value){
+  scale = Math.max(1, Math.min(4, Number(value)/100));
+  clampPan();
+  zoomSlider.value = String(Math.round(scale*100));
+  zoomLabel.textContent = Math.round(scale*100) + '%';
+  draw();
+}
+function imageFromURL(url){
+  return new Promise((resolve,reject)=>{
+    const img = new Image();
+    img.onload = ()=>resolve(img);
+    img.onerror = ()=>reject(new Error('Falha ao abrir a imagem.'));
+    img.src = url;
+  });
+}
+async function normalizeFile(file){
+  const isHEIC = file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name);
+  if(!isHEIC) return file;
+  if(typeof heic2any !== 'function') throw new Error('Conversor HEIC indisponível.');
+  setLoading(true,'Convertendo HEIC...');
+  const converted = await heic2any({blob:file, toType:'image/jpeg', quality:.95});
+  return Array.isArray(converted) ? converted[0] : converted;
+}
+async function loadSelectedFile(file){
+  try{
+    if(!file) return;
+    const validName = /\.(jpg|jpeg|png|heic|heif)$/i.test(file.name || '');
+    const validType = ['image/jpeg','image/png','image/heic','image/heif'].includes(file.type);
+    if(!validName && !validType){
+      setStatus('Formato não suportado. Use JPG, JPEG, PNG ou HEIC.', true);
+      return;
+    }
+    setLoading(true, /\.(heic|heif)$/i.test(file.name||'') ? 'Convertendo HEIC...' : 'Carregando imagem...');
+    const blob = await normalizeFile(file);
+    const url = URL.createObjectURL(blob);
+    const img = await imageFromURL(url);
+    if(photoURL) URL.revokeObjectURL(photoURL);
+    photoURL = url;
+    photo = img;
+    resetAdjustments();
+    controls.classList.add('visible');
+    updateDownloadState();
+    setStatus(frame ? 'Imagem carregada. Arraste para reposicionar e ajuste o zoom.' : 'Imagem carregada, mas falta imagens/perfil.png.', !frame);
+    fileInput.value = '';
+  }catch(err){
+    console.error(err);
+    setStatus('Não foi possível abrir a imagem. Tente outro arquivo JPG, PNG ou HEIC.', true);
+  }finally{
+    setLoading(false);
+  }
+}
+function canvasPoint(event){
+  const r = canvas.getBoundingClientRect();
+  return {x:(event.clientX-r.left)*SIZE/r.width, y:(event.clientY-r.top)*SIZE/r.height};
+}
+
+chooseBtn.addEventListener('click',()=>fileInput.click());
+replaceBtn.addEventListener('click',()=>fileInput.click());
+dropZone.addEventListener('click',()=>fileInput.click());
+dropZone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fileInput.click();}});
+fileInput.addEventListener('change',()=>loadSelectedFile(fileInput.files?.[0]));
+
+['dragenter','dragover'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.add('dragover');}));
+['dragleave','drop'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.remove('dragover');}));
+dropZone.addEventListener('drop',e=>loadSelectedFile(e.dataTransfer.files?.[0]));
+
+zoomSlider.addEventListener('input',()=>setZoom(zoomSlider.value));
+minusBtn.addEventListener('click',()=>setZoom(Math.round(scale*100)-10));
+plusBtn.addEventListener('click',()=>setZoom(Math.round(scale*100)+10));
+resetBtn.addEventListener('click',resetAdjustments);
+
+canvas.addEventListener('pointerdown',e=>{
+  if(!photo) return;
+  dragging = true;
+  const p = canvasPoint(e);
+  startX = p.x; startY = p.y; baseX = panX; baseY = panY;
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!dragging || !photo) return;
+  const p = canvasPoint(e);
+  panX = baseX + p.x - startX;
+  panY = baseY + p.y - startY;
+  clampPan();
+  draw();
+});
+function stopDrag(){dragging=false}
+canvas.addEventListener('pointerup',stopDrag);
+canvas.addEventListener('pointercancel',stopDrag);
+canvas.addEventListener('lostpointercapture',stopDrag);
+canvas.addEventListener('wheel',e=>{
+  if(!photo) return;
+  e.preventDefault();
+  setZoom(Math.round(scale*100) + (e.deltaY<0 ? 10 : -10));
+},{passive:false});
+
+// Pinch-to-zoom support
+let pinchStartDistance = null;
+let pinchStartScale = 1;
+const activePointers = new Map();
+canvas.addEventListener('pointerdown', e => activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY}));
+canvas.addEventListener('pointermove', e => {
+  if(!activePointers.has(e.pointerId)) return;
+  activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(activePointers.size===2 && photo){
+    const pts=[...activePointers.values()];
+    const d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+    if(pinchStartDistance===null){pinchStartDistance=d;pinchStartScale=scale;}
+    else setZoom(Math.round(pinchStartScale*(d/pinchStartDistance)*100));
+  }
+});
+['pointerup','pointercancel','lostpointercapture'].forEach(type=>canvas.addEventListener(type,e=>{
+  activePointers.delete(e.pointerId);
+  if(activePointers.size<2) pinchStartDistance=null;
+}));
+
+downloadBtn.addEventListener('click',async()=>{
+  if(!photo || !frame){setStatus('Adicione uma foto e a moldura antes de baixar.', true);return;}
+  downloadBtn.disabled = true;
+  const originalText = downloadBtn.textContent;
+  downloadBtn.textContent = 'GERANDO PNG...';
+  setLoading(true,'Preparando arquivo...');
+  try{
+    draw();
+    const blob = await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Falha ao gerar PNG')),'image/png'));
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'CIBE-MG-2027-Perfil.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),3000);
+    setStatus('Download iniciado com sucesso.');
+  }catch(err){
+    console.error(err);
+    setStatus('Não foi possível gerar o PNG. Tente novamente.', true);
+  }finally{
+    setLoading(false);
+    downloadBtn.textContent = originalText;
+    updateDownloadState();
+  }
+});
+
+window.addEventListener('beforeunload',()=>{if(photoURL) URL.revokeObjectURL(photoURL);});
+
+draw();
+loadFrame();
+</script>
+</body>
+</html>
