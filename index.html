@@ -1,566 +1,503 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#3d3a1f" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#38361d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Gerador de Foto de Perfil | CIBE - MG 2027</title>
 
-  <!-- HEIC/HEIF support -->
   <script src="https://cdn.jsdelivr.net/npm/heic2any/dist/heic2any.min.js"></script>
 
   <style>
     :root{
-      --green-950:#292815;
-      --green-900:#35341b;
-      --green-800:#444221;
-      --green-700:#55522a;
-      --gold-500:#d8b56c;
-      --gold-400:#e6c985;
-      --gold-300:#f0daa6;
-      --beige-100:#efe6d7;
-      --beige-200:#dcc8aa;
-      --beige-300:#cdb38f;
-      --ink:#3d392d;
-      --muted:#6e6757;
-      --white:#fff;
-      --danger:#a53028;
-      --radius-xl:28px;
-      --radius-lg:18px;
-      --radius-md:12px;
-      --shadow-lg:0 24px 60px rgba(30,27,14,.18);
-      --shadow-md:0 14px 34px rgba(30,27,14,.15);
-      --shadow-sm:0 8px 20px rgba(30,27,14,.10);
+      --green:#3b391e;
+      --green2:#4b4826;
+      --green3:#5a552b;
+      --gold:#d9b66d;
+      --gold2:#efd89e;
+      --cream:#efe5d4;
+      --beige:#cbb28d;
+      --beige2:#b69c76;
+      --ink:#3c382c;
+      --muted:#6c6555;
+      --danger:#a4322a;
+      --shadow:0 16px 40px rgba(43,38,19,.16);
     }
 
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth;background:var(--green)}
     body{
       margin:0;
-      min-height:100%;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height:100vh;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(circle at 20% 5%, rgba(255,255,255,.20), transparent 28%),
-        linear-gradient(180deg, #cab18c 0%, #c8ae87 48%, #8f7f60 74%, var(--green-950) 100%);
-    }
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.12;
-      background-image:
-        radial-gradient(circle at 1px 1px, rgba(255,255,255,.55) 1px, transparent 1px);
-      background-size:24px 24px;
-      mask-image:linear-gradient(to bottom, rgba(0,0,0,.5), transparent 45%);
+        radial-gradient(circle at 15% 2%,rgba(255,255,255,.20),transparent 23%),
+        linear-gradient(180deg,#cfb893 0%,#c7ad85 63%,#9a8866 82%,var(--green) 100%);
+      -webkit-tap-highlight-color:transparent;
+      overflow-x:hidden;
     }
     img{display:block;max-width:100%}
     button,input{font:inherit}
     button{cursor:pointer}
     a{text-decoration:none;color:inherit}
 
-    .site-shell{position:relative;overflow:hidden}
-
-    /* HERO */
+    /* CABEÇALHO: compacto de propósito para celular */
     .hero{
       position:relative;
-      min-height:255px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.025), transparent 48%),
-        var(--green-900);
+      height:136px;
       overflow:hidden;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      box-shadow:0 8px 26px rgba(33,31,15,.18);
-    }
-    .hero::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:-1px;
-      height:34px;
-      background:linear-gradient(180deg, transparent, rgba(0,0,0,.08));
-      opacity:.25;
+      background:linear-gradient(180deg,#403d20,#36351c);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      box-shadow:0 8px 22px rgba(48,43,22,.16);
     }
     .hero-inner{
-      width:min(1180px, calc(100% - 32px));
-      margin:auto;
-      min-height:255px;
       position:relative;
+      width:min(100%,1100px);
+      height:100%;
+      margin:auto;
       display:flex;
       align-items:center;
-      justify-content:center;
-      padding:28px 120px;
+      padding:12px 18px 12px 16px;
     }
     .hero-logo{
-      position:absolute;
-      left:6px;
-      top:30px;
-      width:128px;
-      filter:drop-shadow(0 10px 18px rgba(0,0,0,.16));
+      width:76px;
+      min-width:76px;
+      filter:drop-shadow(0 7px 14px rgba(0,0,0,.16));
+      position:relative;
       z-index:3;
     }
-    .hero-olive{
-      position:absolute;
-      right:-20px;
-      top:-8px;
-      width:min(410px, 38vw);
-      opacity:.9;
-      filter:drop-shadow(0 10px 20px rgba(0,0,0,.08));
-      z-index:1;
+    .hero-copy{
+      position:relative;
+      z-index:3;
+      min-width:0;
+      padding-left:15px;
+      text-align:left;
     }
-    .hero-copy{position:relative;z-index:2;text-align:center}
     .hero-copy .kicker{
-      margin:0 0 10px;
-      color:var(--gold-300);
-      letter-spacing:.28em;
-      font-size:12px;
-      font-weight:800;
+      margin:0 0 5px;
+      color:var(--gold2);
+      font-size:8.5px;
+      font-weight:900;
+      letter-spacing:.16em;
+      line-height:1.35;
       text-transform:uppercase;
+      max-width:250px;
     }
     .hero-copy h1{
       margin:0;
-      font-family:Georgia, "Times New Roman", serif;
+      color:var(--gold);
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:30px;
+      line-height:1;
       font-weight:500;
-      color:var(--gold-400);
-      font-size:clamp(42px, 6vw, 82px);
-      letter-spacing:.02em;
-      text-shadow:0 2px 0 rgba(0,0,0,.08), 0 12px 36px rgba(0,0,0,.12);
+      letter-spacing:.01em;
+      white-space:nowrap;
+    }
+    .hero-olive{
+      position:absolute;
+      right:-43px;
+      top:-10px;
+      width:180px;
+      opacity:.72;
+      z-index:1;
+      pointer-events:none;
     }
 
     main{
-      width:min(1050px, calc(100% - 28px));
-      margin:42px auto 0;
-      position:relative;
-      z-index:2;
+      width:100%;
+      max-width:900px;
+      margin:0 auto;
+      padding:18px 12px 0;
     }
-    .intro{
-      max-width:860px;
-      margin-bottom:26px;
-      text-align:left;
-    }
+    .intro{padding:0 3px 14px}
     .intro .eyebrow{
-      margin:0 0 8px;
-      color:var(--green-800);
+      margin:0 0 5px;
+      color:var(--green2);
+      font-size:9px;
+      line-height:1.2;
       font-weight:900;
+      letter-spacing:.16em;
       text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:12px;
     }
     .intro h2{
-      margin:0 0 12px;
-      font-family:Georgia, "Times New Roman", serif;
-      font-size:clamp(40px, 5vw, 64px);
+      margin:0 0 6px;
+      color:#fff9ef;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:34px;
+      line-height:1;
       font-weight:600;
-      line-height:1.02;
-      color:#fffaf1;
-      text-shadow:0 3px 14px rgba(68,61,43,.24);
+      text-shadow:0 3px 12px rgba(60,52,32,.18);
     }
     .intro h3{
-      margin:0 0 14px;
-      max-width:840px;
-      color:var(--green-900);
-      font-size:clamp(18px,2.3vw,31px);
+      margin:0 0 7px;
+      color:var(--green);
+      font-size:13.5px;
       line-height:1.15;
       font-weight:900;
       text-transform:uppercase;
     }
-    .intro p{margin:0;color:#4f493b;font-size:clamp(16px,1.8vw,22px);line-height:1.5}
+    .intro p{
+      margin:0;
+      color:#565042;
+      font-size:13px;
+      line-height:1.42;
+    }
 
-    /* PREMIUM CARD */
-    .editor-card{
-      position:relative;
-      border:1px solid rgba(255,255,255,.28);
-      background:linear-gradient(180deg, rgba(255,255,255,.36), rgba(255,255,255,.20));
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
-      border-radius:var(--radius-xl);
-      padding:24px;
-      box-shadow:var(--shadow-lg);
-      overflow:hidden;
-    }
-    .editor-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:inherit;
-      pointer-events:none;
-      background:linear-gradient(135deg, rgba(255,255,255,.18), transparent 35%, transparent 65%, rgba(216,181,108,.08));
-    }
-    .editor-grid{
-      position:relative;
-      z-index:1;
-      display:grid;
-      grid-template-columns:minmax(0, 1.08fr) minmax(300px, .92fr);
-      gap:24px;
-      align-items:start;
-    }
-    .preview-pane,.control-pane{
-      border-radius:22px;
-      background:rgba(255,255,255,.35);
+    /* Card único e baixo: sem caixas empilhadas gigantes */
+    .generator{
       border:1px solid rgba(255,255,255,.34);
-      box-shadow:var(--shadow-sm);
+      background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,.20));
+      border-radius:20px;
+      padding:12px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
-    .preview-pane{padding:18px}
-    .control-pane{padding:20px}
-
-    .pane-header{
+    .gen-top{
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      gap:12px;
-      margin-bottom:14px;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:10px;
     }
-    .pane-header strong{font-size:18px;color:var(--green-950)}
+    .gen-top strong{font-size:15px;color:var(--green)}
     .size-pill{
-      border:1px solid rgba(67,64,34,.16);
-      background:rgba(255,255,255,.45);
-      padding:8px 11px;
+      flex:none;
+      padding:5px 7px;
+      border:1px solid rgba(59,57,30,.15);
       border-radius:999px;
-      font-size:11px;
+      background:rgba(255,255,255,.42);
+      color:var(--green2);
+      font-size:8px;
       font-weight:900;
-      letter-spacing:.06em;
-      color:var(--green-800);
-      white-space:nowrap;
+      letter-spacing:.04em;
     }
 
-    .canvas-wrap{
+    /* A PREVIA NO CELULAR FICA REALMENTE PEQUENA */
+    .preview-shell{
+      width:210px;
+      max-width:62vw;
+      margin:0 auto;
       position:relative;
+    }
+    .preview-frame{
       width:100%;
       aspect-ratio:1;
       overflow:hidden;
-      border-radius:18px;
-      background:
-        linear-gradient(45deg,#f4efe6 25%,transparent 25%),
-        linear-gradient(-45deg,#f4efe6 25%,transparent 25%),
-        linear-gradient(45deg,transparent 75%,#f4efe6 75%),
-        linear-gradient(-45deg,transparent 75%,#f4efe6 75%),
-        #ebe1d2;
-      background-size:26px 26px;
-      background-position:0 0,0 13px,13px -13px,-13px 0;
-      border:1px solid rgba(67,64,34,.10);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,.65), 0 16px 28px rgba(46,42,23,.16);
+      border-radius:14px;
+      background:#e9dfd0;
+      border:1px solid rgba(59,57,30,.14);
+      box-shadow:0 9px 18px rgba(54,48,27,.14),inset 0 0 0 1px rgba(255,255,255,.56);
+      pointer-events:none; /* NUNCA trava a rolagem da página */
     }
-    #canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
-    #canvas.no-photo{touch-action:pan-y}
-    #canvas:active{cursor:grabbing}
-    .canvas-badge{
+    #previewCanvas{width:100%;height:100%;display:block}
+    .preview-tag{
       position:absolute;
-      left:12px;
-      bottom:12px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
+      left:7px;
+      bottom:7px;
+      max-width:calc(100% - 14px);
+      padding:5px 7px;
       border-radius:999px;
-      background:rgba(53,52,27,.86);
-      color:var(--gold-300);
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.03em;
-      backdrop-filter:blur(8px);
-      pointer-events:none;
+      background:rgba(55,53,28,.88);
+      color:var(--gold2);
+      font-size:8px;
+      font-weight:900;
+      line-height:1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-
     .status{
-      min-height:22px;
-      margin:12px 0 0;
-      color:#554f3f;
-      font-size:13px;
-      font-weight:700;
-      line-height:1.45;
+      min-height:15px;
+      margin:7px 2px 10px;
       text-align:center;
+      color:#5c5545;
+      font-size:10px;
+      font-weight:700;
+      line-height:1.3;
     }
     .status.error{color:var(--danger)}
 
     .upload-zone{
-      border:1.5px dashed rgba(68,66,33,.28);
-      background:rgba(255,255,255,.24);
-      border-radius:16px;
-      padding:16px;
-      margin-bottom:16px;
-      text-align:center;
-      transition:.18s ease;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height:60px;
+      padding:9px 10px;
+      border:1.5px dashed rgba(59,57,30,.24);
+      border-radius:12px;
+      background:rgba(255,255,255,.22);
+      text-align:left;
+      transition:.16s ease;
     }
-    .upload-zone.dragover{
-      border-color:var(--gold-500);
-      background:rgba(216,181,108,.18);
-      transform:translateY(-1px);
-    }
-    .upload-zone .upload-icon{
-      width:42px;height:42px;
+    .upload-zone.dragover{border-color:var(--gold);background:rgba(217,182,109,.16)}
+    .upload-icon{
+      width:34px;height:34px;min-width:34px;
       display:grid;place-items:center;
-      margin:0 auto 8px;
       border-radius:50%;
-      background:var(--green-900);
-      color:var(--gold-400);
-      box-shadow:0 8px 20px rgba(48,46,24,.18);
+      background:var(--green);
+      color:var(--gold2);
+      font-size:15px;
+      font-weight:900;
     }
-    .upload-zone strong{display:block;margin-bottom:4px;color:var(--green-950);font-size:15px}
-    .upload-zone span{display:block;color:#6a6456;font-size:12px;line-height:1.4}
+    .upload-copy strong{display:block;color:var(--green);font-size:12px;margin-bottom:1px}
+    .upload-copy span{display:block;color:#6a6354;font-size:9.5px;line-height:1.3}
 
     .button{
       width:100%;
-      min-height:52px;
-      border-radius:13px;
-      border:2px solid var(--gold-500);
-      background:linear-gradient(180deg,var(--green-800),var(--green-900));
-      color:var(--gold-400);
+      min-height:44px;
+      border:2px solid var(--gold);
+      border-radius:11px;
+      background:linear-gradient(180deg,var(--green2),var(--green));
+      color:var(--gold2);
+      padding:9px 11px;
+      font-size:11px;
       font-weight:900;
-      letter-spacing:.055em;
-      padding:12px 16px;
-      box-shadow:0 8px 18px rgba(43,41,20,.16);
-      transition:transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease;
+      letter-spacing:.045em;
+      box-shadow:0 7px 14px rgba(45,42,22,.14);
+      transition:.15s ease;
     }
     .button:hover,.button:focus-visible,.button:active{
-      background:linear-gradient(180deg,var(--gold-400),var(--gold-500));
-      color:var(--green-900);
-      border-color:var(--green-900);
-      transform:translateY(-1px);
-      box-shadow:0 10px 22px rgba(43,41,20,.18);
+      background:linear-gradient(180deg,var(--gold2),var(--gold));
+      color:var(--green);
+      border-color:var(--green);
       outline:none;
+      transform:translateY(-1px);
     }
-    .button:disabled{opacity:.46;cursor:not-allowed;transform:none;box-shadow:none}
-    .button.secondary{background:rgba(53,52,27,.90)}
-    .button.small{min-height:44px;padding:8px 10px;border-radius:11px}
-
-    .controls{display:none}
-    .controls.visible{display:block}
-    .control-block{margin-top:16px;padding-top:16px;border-top:1px solid rgba(68,66,33,.14)}
-    .control-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-    .control-title strong{font-size:14px;color:var(--green-950)}
-    .control-title span{font-size:12px;color:#6c6658}
-    .zoom-row{display:flex;align-items:center;gap:9px}
-    .zoom-row input[type="range"]{flex:1;accent-color:var(--green-800);min-width:0}
-    .zoom-value{min-width:48px;text-align:right;font-weight:900;color:var(--green-900);font-size:12px}
-    .icon-button{
-      width:44px;min-width:44px;height:44px;
-      display:grid;place-items:center;
-      border-radius:11px;
-      border:2px solid var(--gold-500);
-      background:var(--green-900);
-      color:var(--gold-400);
-      font-size:20px;
-      font-weight:900;
-      transition:.16s ease;
-    }
-    .icon-button:hover,.icon-button:focus-visible,.icon-button:active{
-      background:var(--gold-500);color:var(--green-900);border-color:var(--green-900);outline:none
-    }
-    .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-    .hint-box{
-      margin-top:14px;
-      padding:12px 13px;
-      border-radius:12px;
-      background:rgba(53,52,27,.08);
-      color:#5d5749;
-      font-size:12px;
-      line-height:1.55;
-    }
-    .download-wrap{margin-top:14px}
+    .button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
+    .button.secondary{background:rgba(59,57,30,.92)}
+    .choose{margin-top:8px}
+    .post-actions{display:none;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+    .post-actions.visible{display:grid}
+    .download-wrap{margin-top:8px}
 
     .loader{
       display:none;
       align-items:center;
       justify-content:center;
-      gap:8px;
-      margin-top:10px;
-      font-size:12px;
+      gap:6px;
+      padding-top:7px;
+      color:var(--green);
+      font-size:10px;
       font-weight:800;
-      color:var(--green-900);
     }
     .loader.visible{display:flex}
     .spinner{
-      width:18px;height:18px;border-radius:50%;
-      border:2px solid rgba(53,52,27,.18);
-      border-top-color:var(--green-900);
-      animation:spin .8s linear infinite;
+      width:13px;height:13px;
+      border-radius:50%;
+      border:2px solid rgba(59,57,30,.18);
+      border-top-color:var(--green);
+      animation:spin .75s linear infinite;
     }
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* FOOTER */
+    /* MODAL DE AJUSTE: edição grande só quando a pessoa quiser */
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      display:none;
+      background:rgba(24,23,12,.72);
+      backdrop-filter:blur(7px);
+      -webkit-backdrop-filter:blur(7px);
+      overscroll-behavior:contain;
+    }
+    .modal.open{display:block}
+    .modal-card{
+      width:100%;
+      min-height:100dvh;
+      background:linear-gradient(180deg,#d2bd9c 0%,#c7ad85 60%,#ae9671 100%);
+      padding:calc(10px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom));
+      overflow-y:auto;
+      overscroll-behavior:contain;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      max-width:480px;
+      margin:0 auto 8px;
+    }
+    .modal-title strong{display:block;color:var(--green);font-size:15px}
+    .modal-title span{display:block;margin-top:1px;color:#655e4f;font-size:9.5px}
+    .close-btn{
+      width:40px;height:40px;min-width:40px;
+      border:2px solid var(--gold);
+      border-radius:50%;
+      background:var(--green);
+      color:var(--gold2);
+      font-size:22px;
+      line-height:1;
+      font-weight:500;
+    }
+    .editor-canvas-wrap{
+      width:min(84vw,390px);
+      margin:0 auto;
+      aspect-ratio:1;
+      border-radius:16px;
+      overflow:hidden;
+      background:#e8ddcd;
+      border:1px solid rgba(59,57,30,.18);
+      box-shadow:0 14px 28px rgba(46,40,21,.18);
+    }
+    #editorCanvas{
+      width:100%;height:100%;display:block;
+      touch-action:none;
+      cursor:grab;
+    }
+    #editorCanvas:active{cursor:grabbing}
+    .editor-controls{
+      max-width:480px;
+      margin:10px auto 0;
+      padding:10px;
+      border-radius:14px;
+      background:rgba(255,255,255,.26);
+      border:1px solid rgba(255,255,255,.30);
+    }
+    .zoom-label-row{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:6px;color:var(--green);font-size:11px;font-weight:900;
+    }
+    .zoom-row{display:grid;grid-template-columns:38px 1fr 38px 43px;gap:6px;align-items:center}
+    .icon-btn{
+      height:38px;
+      border:2px solid var(--gold);
+      border-radius:9px;
+      background:var(--green);
+      color:var(--gold2);
+      font-size:19px;
+      font-weight:900;
+    }
+    .zoom-row input{width:100%;accent-color:var(--green)}
+    .zoom-value{text-align:right;color:var(--green);font-size:10px;font-weight:900}
+    .editor-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+    .editor-hint{margin:7px 0 0;text-align:center;color:#645d4d;font-size:9px;line-height:1.35}
+
+    /* RODAPÉ: mais baixo e os 3 Instagrams juntos */
     .footer{
       position:relative;
-      margin-top:68px;
-      background:var(--green-900);
-      color:var(--gold-400);
+      margin-top:32px;
       overflow:hidden;
+      background:linear-gradient(180deg,#3a391e,#323119);
+      color:var(--gold2);
       border-top:1px solid rgba(255,255,255,.07);
-    }
-    .footer::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:radial-gradient(circle at 50% 0%, rgba(255,255,255,.045), transparent 38%);
-      pointer-events:none;
     }
     .footer-inner{
       position:relative;
       z-index:2;
-      width:min(1160px,calc(100% - 28px));
+      max-width:900px;
       margin:auto;
-      padding:46px 132px 40px;
+      padding:24px 14px calc(68px + env(safe-area-inset-bottom));
       text-align:center;
     }
+    .footer-president{
+      margin:0;
+      color:var(--gold2);
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:22px;
+      line-height:1.08;
+      font-weight:500;
+    }
+    .footer-line{height:1px;max-width:340px;margin:12px auto;background:linear-gradient(90deg,transparent,rgba(217,182,109,.45),transparent)}
+    .developer{margin:0;color:var(--gold2);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .developer-name{display:block;margin-top:3px;font-family:Georgia,"Times New Roman",serif;font-size:20px;letter-spacing:0;text-transform:none}
+    .socials{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:7px;
+      margin:14px auto 0;
+      max-width:560px;
+    }
+    .social-card{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-height:36px;
+      padding:7px 9px;
+      border:1px solid rgba(217,182,109,.34);
+      border-radius:999px;
+      background:rgba(255,255,255,.025);
+      color:var(--gold2);
+      font-size:9.5px;
+      font-weight:800;
+    }
+    .social-card svg{width:14px;height:14px;flex:none}
+    .footer-note{margin:12px 0 0;padding:0 30px;color:#d9c8a6;font-size:8.5px;line-height:1.4;opacity:.9}
     .footer-logo{
       position:absolute;
-      left:18px;
-      bottom:20px;
-      width:120px;
-      filter:drop-shadow(0 10px 20px rgba(0,0,0,.14));
-      z-index:2;
-    }
-    .footer-olive{
-      position:absolute;
-      right:-20px;
-      bottom:-12px;
-      width:min(360px,36vw);
+      left:10px;
+      bottom:8px;
+      width:53px;
       opacity:.92;
       z-index:1;
     }
-    .footer-president{
-      margin:0 0 18px;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:clamp(24px,2.5vw,42px);
-      font-weight:500;
-      color:var(--gold-300);
-    }
-    .footer-line{height:1px;background:linear-gradient(90deg,transparent,rgba(216,181,108,.45),transparent);margin:20px auto;max-width:760px}
-    .developer{margin:0;color:var(--gold-300);font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
-    .developer-name{display:block;margin-top:5px;font-family:Georgia,"Times New Roman",serif;font-size:26px;text-transform:none;letter-spacing:0}
-    .socials{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:860px;margin:24px auto 0}
-    .social-card{
-      min-height:64px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(216,181,108,.36);
-      background:rgba(255,255,255,.025);
-      color:var(--gold-300);
-      font-weight:800;
-      transition:.16s ease;
-    }
-    .social-card:hover,.social-card:focus-visible{
-      background:var(--gold-500);
-      color:var(--green-900);
-      transform:translateY(-2px);
-      outline:none;
-    }
-    .social-card svg{width:20px;height:20px;flex:none}
-    .dev-instagram{margin-top:12px;display:inline-flex}
-    .footer-note{margin:18px 0 0;color:#d9c9a6;font-size:11px;line-height:1.6;opacity:.92}
-
-    @media(max-width:900px){
-      .hero-inner{padding-inline:90px}
-      .hero-logo{width:102px}
-      .editor-grid{grid-template-columns:1fr}
-      .control-pane{order:2}
-      .footer-inner{padding-inline:100px}
-      .footer-logo{width:96px}
-      .socials{grid-template-columns:1fr}
-    }
-    @media(max-width:640px){
-      /* Mobile-first: quase todo o público acessa pelo celular */
-      body{background:linear-gradient(180deg,#cab18c 0%,#c8ae87 58%,#8f7f60 78%,var(--green-950) 100%)}
-      .hero{min-height:154px}
-      .hero-inner{min-height:154px;padding:16px 54px}
-      .hero-logo{left:4px;top:14px;width:68px}
-      .hero-olive{width:158px;right:-34px;top:4px;opacity:.82}
-      .hero-copy{max-width:270px}
-      .hero-copy .kicker{font-size:8.5px;line-height:1.35;letter-spacing:.16em;margin-bottom:6px}
-      .hero-copy h1{font-size:34px;line-height:1.04;letter-spacing:.01em}
-
-      main{margin-top:18px;width:calc(100% - 16px)}
-      .intro{margin-bottom:13px;padding:0 4px}
-      .intro .eyebrow{font-size:9px;letter-spacing:.15em;margin-bottom:6px}
-      .intro h2{font-size:33px;line-height:1;margin-bottom:9px}
-      .intro h3{font-size:14px;line-height:1.18;margin-bottom:9px}
-      .intro p{font-size:13.5px;line-height:1.42}
-
-      .editor-card{padding:8px;border-radius:18px;box-shadow:0 14px 34px rgba(30,27,14,.15)}
-      .editor-grid{gap:10px}
-      .preview-pane,.control-pane{padding:10px;border-radius:14px}
-      .pane-header{align-items:center;flex-direction:row;margin-bottom:8px;gap:7px}
-      .pane-header strong{font-size:15px;line-height:1.15}
-      .size-pill{font-size:8.5px;padding:5px 7px;letter-spacing:.035em}
-
-      /* Prévia propositalmente menor: facilita a rolagem em telas pequenas */
-      .canvas-wrap{width:min(74vw,290px);margin:0 auto;border-radius:13px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.65),0 10px 18px rgba(46,42,23,.14)}
-      .canvas-badge{left:7px;bottom:7px;padding:5px 7px;font-size:8.5px;gap:5px}
-      .status{min-height:16px;margin:7px 0 0;font-size:10.5px;line-height:1.35}
-      .loader{margin-top:6px;font-size:10.5px}
-      .spinner{width:14px;height:14px}
-
-      /* Área de seleção compacta no celular */
-      .upload-zone{display:flex;align-items:center;gap:10px;text-align:left;padding:9px 10px;margin-bottom:9px;border-radius:12px}
-      .upload-zone .upload-icon{width:34px;height:34px;min-width:34px;margin:0;font-size:14px}
-      .upload-zone strong{font-size:12.5px;margin:0 0 2px}
-      .upload-zone span{font-size:9.5px;line-height:1.3}
-      .button{min-height:44px;border-radius:11px;padding:9px 11px;font-size:11.5px;letter-spacing:.04em}
-      .download-wrap{margin-top:9px}
-
-      .control-block{margin-top:10px;padding-top:10px}
-      .control-title{margin-bottom:7px}
-      .control-title strong{font-size:12px}
-      .control-title span{font-size:9.5px}
-      .zoom-row{gap:6px}
-      .icon-button{width:38px;min-width:38px;height:38px;border-radius:9px;font-size:18px}
-      .zoom-value{min-width:42px;font-size:10.5px}
-      .action-grid{grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
-      .button.small{min-height:40px;padding:7px 8px;font-size:9.5px}
-      .hint-box{margin-top:9px;padding:8px 9px;border-radius:10px;font-size:9.5px;line-height:1.4}
-
-      .footer{margin-top:38px}
-      .footer-inner{padding:28px 12px calc(86px + env(safe-area-inset-bottom))}
-      .footer-logo{width:66px;left:9px;bottom:10px}
-      .footer-olive{width:150px;right:-38px;bottom:-14px;opacity:.82}
-      .footer-president{font-size:23px;line-height:1.08;margin-bottom:13px}
-      .footer-line{margin:14px auto}
-      .developer{font-size:11px}
-      .developer-name{font-size:21px;margin-top:3px}
-      .socials{gap:8px;margin-top:16px}
-      .social-card{min-height:48px;padding:9px 10px;border-radius:11px;font-size:12px}
-      .social-card svg{width:17px;height:17px}
-      .footer-note{margin-top:13px;font-size:9.5px;line-height:1.45;padding-inline:20px}
+    .footer-olive{
+      position:absolute;
+      right:-42px;
+      bottom:-18px;
+      width:145px;
+      opacity:.7;
+      z-index:1;
+      pointer-events:none;
     }
 
-    @media(max-width:390px){
-      .hero{min-height:146px}
-      .hero-inner{min-height:146px;padding-inline:48px}
-      .hero-logo{width:62px}
-      .hero-olive{width:146px}
-      .hero-copy h1{font-size:31px}
-      .intro h2{font-size:30px}
-      .intro h3{font-size:13px}
-      .canvas-wrap{width:min(72vw,270px)}
-      .pane-header strong{font-size:14px}
-      .size-pill{font-size:8px}
-      .action-grid{grid-template-columns:1fr}
+    @media(min-width:700px){
+      .hero{height:210px}
+      .hero-inner{padding:20px 70px}
+      .hero-logo{width:112px;min-width:112px}
+      .hero-copy{padding-left:28px}
+      .hero-copy .kicker{font-size:11px;max-width:none}
+      .hero-copy h1{font-size:58px}
+      .hero-olive{width:330px;right:-50px}
+      main{padding:34px 20px 0}
+      .intro{padding-bottom:24px}
+      .intro h2{font-size:56px}
+      .intro h3{font-size:23px}
+      .intro p{font-size:17px}
+      .generator{padding:20px;border-radius:26px}
+      .gen-top strong{font-size:19px}
+      .size-pill{font-size:10px;padding:7px 10px}
+      .preview-shell{width:390px;max-width:100%}
+      .status{font-size:12px;margin:10px 0 14px}
+      .upload-zone{max-width:520px;margin:0 auto;min-height:72px;padding:12px 14px}
+      .choose,.post-actions,.download-wrap{max-width:520px;margin-left:auto;margin-right:auto}
+      .choose{margin-top:10px}.post-actions{margin-top:10px}.download-wrap{margin-top:10px}
+      .button{min-height:50px;font-size:12px}
+      .footer{margin-top:58px}
+      .footer-inner{padding:38px 100px 38px}
+      .footer-president{font-size:34px}
+      .developer{font-size:12px}.developer-name{font-size:26px}
+      .social-card{font-size:11px;min-height:42px;padding:9px 12px}
+      .footer-logo{width:88px;left:18px;bottom:18px}
+      .footer-olive{width:260px;right:-50px}
     }
 
-    @media(max-width:340px){
-      .hero-copy .kicker{display:none}
-      .hero-copy h1{font-size:29px}
-      .hero-logo{width:58px}
-      .canvas-wrap{width:min(70vw,238px)}
-      .size-pill{display:none}
-      .intro h2{font-size:28px}
+    @media(max-width:360px){
+      .hero-copy h1{font-size:27px}
+      .hero-logo{width:68px;min-width:68px}
+      .hero-copy{padding-left:10px}
+      .intro h2{font-size:31px}
+      .intro h3{font-size:12.5px}
+      .preview-shell{width:198px;max-width:60vw}
+      .button{font-size:10.3px}
+      .social-card{font-size:8.8px;padding-inline:8px}
     }
   </style>
 </head>
 <body>
-<div class="site-shell">
   <header class="hero">
     <div class="hero-inner">
       <img class="hero-logo" src="imagens/cibe.png" alt="CIBE MG" onerror="this.style.display='none'">
-      <img class="hero-olive" src="imagens/oliva.png" alt="Folhas de oliveira" onerror="this.style.display='none'">
       <div class="hero-copy">
-        <p class="kicker">Confederação de Irmãs Beneficentes Evangélicas</p>
+        <p class="kicker">Confederação de Irmãs Beneficentes Evangélicas de Minas Gerais</p>
         <h1>CIBE - MG 2027</h1>
       </div>
+      <img class="hero-olive" src="imagens/oliva.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
     </div>
   </header>
 
@@ -569,89 +506,67 @@
       <p class="eyebrow">Gerador oficial de foto de perfil</p>
       <h2>CIBE - MG 2027</h2>
       <h3>Confederação de Irmãs Beneficentes Evangélicas de Minas Gerais</h3>
-      <p>Escolha sua foto, ajuste o enquadramento e baixe uma imagem pronta em 1080 × 1080.</p>
+      <p>Escolha sua foto, ajuste o enquadramento e baixe sua imagem pronta em 1080 × 1080.</p>
     </section>
 
-    <section class="editor-card" aria-label="Gerador de foto de perfil CIBE MG 2027">
-      <div class="editor-grid">
-        <div class="preview-pane">
-          <div class="pane-header">
-            <strong>Prévia da sua foto</strong>
-            <span class="size-pill">PERFIL · 1080 × 1080</span>
-          </div>
+    <section class="generator" aria-label="Gerador de foto de perfil CIBE MG 2027">
+      <div class="gen-top">
+        <strong>Prévia da sua foto</strong>
+        <span class="size-pill">1080 × 1080</span>
+      </div>
 
-          <div class="canvas-wrap">
-            <canvas id="canvas" width="1080" height="1080" aria-label="Prévia da foto de perfil"></canvas>
-            <div class="canvas-badge">Arraste para reposicionar</div>
-          </div>
-          <p class="status" id="status" role="status" aria-live="polite">Carregando a moldura...</p>
-          <div class="loader" id="loader"><span class="spinner" aria-hidden="true"></span><span id="loader-text">Processando imagem...</span></div>
+      <div class="preview-shell">
+        <div class="preview-frame">
+          <canvas id="previewCanvas" width="1080" height="1080" aria-label="Prévia da foto de perfil"></canvas>
         </div>
+        <div class="preview-tag" id="previewTag">Escolha sua foto</div>
+      </div>
 
-        <div class="control-pane">
-          <input type="file" id="file" accept=".jpg,.jpeg,.png,.heic,.heif,image/jpeg,image/png,image/heic,image/heif" hidden>
+      <p class="status" id="status" role="status" aria-live="polite">Carregando a moldura...</p>
+      <div class="loader" id="loader"><span class="spinner"></span><span id="loaderText">Processando imagem...</span></div>
 
-          <div class="upload-zone" id="drop-zone" tabindex="0" role="button" aria-label="Selecionar uma foto">
-            <div class="upload-icon" aria-hidden="true">↑</div>
-            <strong>Escolha sua foto</strong>
-            <span>JPG, JPEG, PNG e HEIC/HEIF<br>ou arraste o arquivo para esta área.</span>
-          </div>
+      <input type="file" id="file" accept=".jpg,.jpeg,.png,.heic,.heif,image/jpeg,image/png,image/heic,image/heif" hidden>
 
-          <button class="button" id="choose" type="button">ESCOLHER MINHA FOTO</button>
-
-          <div class="controls" id="controls">
-            <div class="control-block">
-              <div class="control-title">
-                <strong>Zoom</strong>
-                <span>Use a barra ou os botões</span>
-              </div>
-              <div class="zoom-row">
-                <button class="icon-button" id="minus" type="button" aria-label="Diminuir zoom">−</button>
-                <input id="zoom" type="range" min="100" max="400" step="1" value="100" aria-label="Zoom da foto">
-                <button class="icon-button" id="plus" type="button" aria-label="Aumentar zoom">+</button>
-                <span class="zoom-value" id="zoom-label">100%</span>
-              </div>
-
-              <div class="action-grid">
-                <button class="button small secondary" id="reset" type="button">REDEFINIR AJUSTES</button>
-                <button class="button small secondary" id="replace" type="button">TROCAR FOTO</button>
-              </div>
-
-              <div class="hint-box">
-                Dica: arraste a foto com o mouse ou com o dedo. O sistema limita o movimento para reduzir áreas vazias no quadro.
-              </div>
-            </div>
-          </div>
-
-          <div class="download-wrap">
-            <button class="button" id="download" type="button" disabled>BAIXAR FOTO DE PERFIL · PNG</button>
-          </div>
+      <div class="upload-zone" id="dropZone" tabindex="0" role="button" aria-label="Selecionar uma foto">
+        <div class="upload-icon" aria-hidden="true">↑</div>
+        <div class="upload-copy">
+          <strong>Escolha uma foto</strong>
+          <span>JPG, JPEG, PNG, HEIC ou HEIF</span>
         </div>
+      </div>
+
+      <button class="button choose" id="choose" type="button">ESCOLHER MINHA FOTO</button>
+
+      <div class="post-actions" id="postActions">
+        <button class="button secondary" id="edit" type="button">AJUSTAR ENQUADRAMENTO</button>
+        <button class="button secondary" id="replace" type="button">TROCAR FOTO</button>
+      </div>
+
+      <div class="download-wrap">
+        <button class="button" id="download" type="button" disabled>BAIXAR FOTO DE PERFIL · PNG</button>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <img class="footer-logo" src="imagens/cibe.png" alt="CIBE MG" onerror="this.style.display='none'">
-    <img class="footer-olive" src="imagens/oliva.png" alt="Folhas de oliveira" onerror="this.style.display='none'">
-
+    <img class="footer-olive" src="imagens/oliva.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
     <div class="footer-inner">
       <h3 class="footer-president">Presidente Pastora Elizângela Neves</h3>
       <div class="footer-line"></div>
-
       <p class="developer">Desenvolvido por <span class="developer-name">David Amorim</span></p>
 
-      <div class="socials" aria-label="Redes sociais">
-        <a class="social-card" href="https://www.instagram.com/cibe.mg/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da CIBE MG">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      <div class="socials" aria-label="Instagrams">
+        <a class="social-card" href="https://www.instagram.com/cibe.mg/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           @cibe.mg
         </a>
-        <a class="social-card" href="https://www.instagram.com/_elizangelaneves/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Pastora Elizângela Neves">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <a class="social-card" href="https://www.instagram.com/_elizangelaneves/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           @_elizangelaneves
         </a>
-        <a class="social-card" href="https://www.instagram.com/_david__amorim_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de David Amorim">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <a class="social-card" href="https://www.instagram.com/_david__amorim_/" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           @_david__amorim_
         </a>
       </div>
@@ -659,266 +574,342 @@
       <p class="footer-note">Sua foto é processada no próprio navegador. Nenhuma imagem é enviada para este site.</p>
     </div>
   </footer>
-</div>
 
-<script>
-'use strict';
+  <div class="modal" id="editorModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title">
+          <strong>Ajuste sua foto</strong>
+          <span>Arraste para posicionar. Use o zoom se precisar.</span>
+        </div>
+        <button class="close-btn" id="closeEditor" type="button" aria-label="Fechar editor">×</button>
+      </div>
 
-const FRAME_PATH = 'imagens/perfil.png';
-const SIZE = 1080;
+      <div class="editor-canvas-wrap">
+        <canvas id="editorCanvas" width="1080" height="1080" aria-label="Editor da foto"></canvas>
+      </div>
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-canvas.classList.add('no-photo');
-const fileInput = document.getElementById('file');
-const chooseBtn = document.getElementById('choose');
-const replaceBtn = document.getElementById('replace');
-const resetBtn = document.getElementById('reset');
-const minusBtn = document.getElementById('minus');
-const plusBtn = document.getElementById('plus');
-const zoomSlider = document.getElementById('zoom');
-const zoomLabel = document.getElementById('zoom-label');
-const downloadBtn = document.getElementById('download');
-const controls = document.getElementById('controls');
-const statusEl = document.getElementById('status');
-const loader = document.getElementById('loader');
-const loaderText = document.getElementById('loader-text');
-const dropZone = document.getElementById('drop-zone');
+      <div class="editor-controls">
+        <div class="zoom-label-row"><span>Zoom</span><span id="zoomText">100%</span></div>
+        <div class="zoom-row">
+          <button class="icon-btn" id="minus" type="button" aria-label="Diminuir zoom">−</button>
+          <input id="zoom" type="range" min="100" max="400" step="1" value="100" aria-label="Zoom da foto">
+          <button class="icon-btn" id="plus" type="button" aria-label="Aumentar zoom">+</button>
+          <span class="zoom-value" id="zoomValue">100%</span>
+        </div>
+        <div class="editor-actions">
+          <button class="button secondary" id="reset" type="button">REDEFINIR</button>
+          <button class="button" id="done" type="button">CONCLUIR AJUSTE</button>
+        </div>
+        <p class="editor-hint">O editor abre separado para que a prévia da página não atrapalhe a rolagem no celular.</p>
+      </div>
+    </div>
+  </div>
 
-let frame = null;
-let photo = null;
-let photoURL = null;
-let scale = 1;
-let panX = 0;
-let panY = 0;
-let dragging = false;
-let startX = 0;
-let startY = 0;
-let baseX = 0;
-let baseY = 0;
+  <canvas id="outputCanvas" width="1080" height="1080" hidden></canvas>
 
-function setStatus(message, error=false){
-  statusEl.textContent = message;
-  statusEl.classList.toggle('error', error);
-}
-function setLoading(active, message='Processando imagem...'){
-  loader.classList.toggle('visible', active);
-  loaderText.textContent = message;
-}
-function updateDownloadState(){
-  downloadBtn.disabled = !(frame && photo);
-}
-function getBaseRatio(){
-  if(!photo) return 1;
-  return Math.max(SIZE / photo.naturalWidth, SIZE / photo.naturalHeight);
-}
-function clampPan(){
-  if(!photo) return;
-  const ratio = getBaseRatio() * scale;
-  const w = photo.naturalWidth * ratio;
-  const h = photo.naturalHeight * ratio;
-  const maxX = Math.max(0, (w - SIZE) / 2);
-  const maxY = Math.max(0, (h - SIZE) / 2);
-  panX = Math.max(-maxX, Math.min(maxX, panX));
-  panY = Math.max(-maxY, Math.min(maxY, panY));
-}
-function draw(){
-  ctx.clearRect(0,0,SIZE,SIZE);
-  ctx.fillStyle = '#ece4d8';
-  ctx.fillRect(0,0,SIZE,SIZE);
+  <script>
+    'use strict';
 
-  if(photo){
-    clampPan();
-    const ratio = getBaseRatio() * scale;
-    const w = photo.naturalWidth * ratio;
-    const h = photo.naturalHeight * ratio;
-    ctx.drawImage(photo, (SIZE-w)/2 + panX, (SIZE-h)/2 + panY, w, h);
-  } else {
-    const grad = ctx.createLinearGradient(0,0,SIZE,SIZE);
-    grad.addColorStop(0,'#eee5d8');
-    grad.addColorStop(1,'#d9c8ae');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0,0,SIZE,SIZE);
-    ctx.fillStyle = '#756b58';
-    ctx.textAlign = 'center';
-    ctx.font = '700 36px Arial';
-    ctx.fillText('SUA FOTO AQUI', SIZE/2, SIZE/2 - 4);
-    ctx.font = '500 22px Arial';
-    ctx.fillText('Escolha uma imagem para começar', SIZE/2, SIZE/2 + 38);
-  }
-  if(frame) ctx.drawImage(frame,0,0,SIZE,SIZE);
-}
-function loadFrame(){
-  const img = new Image();
-  img.onload = () => {
-    frame = img;
-    draw();
-    updateDownloadState();
-    setStatus(photo ? 'Arraste a foto para ajustar o enquadramento.' : 'Moldura carregada. Escolha sua foto para começar.');
-  };
-  img.onerror = () => {
-    frame = null;
-    draw();
-    updateDownloadState();
-    setStatus('Moldura não encontrada. Adicione imagens/perfil.png.', true);
-  };
-  img.src = FRAME_PATH + '?v=' + Date.now();
-}
-function resetAdjustments(){
-  scale = 1; panX = 0; panY = 0;
-  zoomSlider.value = '100';
-  zoomLabel.textContent = '100%';
-  draw();
-}
-function setZoom(value){
-  scale = Math.max(1, Math.min(4, Number(value)/100));
-  clampPan();
-  zoomSlider.value = String(Math.round(scale*100));
-  zoomLabel.textContent = Math.round(scale*100) + '%';
-  draw();
-}
-function imageFromURL(url){
-  return new Promise((resolve,reject)=>{
-    const img = new Image();
-    img.onload = ()=>resolve(img);
-    img.onerror = ()=>reject(new Error('Falha ao abrir a imagem.'));
-    img.src = url;
-  });
-}
-async function normalizeFile(file){
-  const isHEIC = file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name);
-  if(!isHEIC) return file;
-  if(typeof heic2any !== 'function') throw new Error('Conversor HEIC indisponível.');
-  setLoading(true,'Convertendo HEIC...');
-  const converted = await heic2any({blob:file, toType:'image/jpeg', quality:.95});
-  return Array.isArray(converted) ? converted[0] : converted;
-}
-async function loadSelectedFile(file){
-  try{
-    if(!file) return;
-    const validName = /\.(jpg|jpeg|png|heic|heif)$/i.test(file.name || '');
-    const validType = ['image/jpeg','image/png','image/heic','image/heif'].includes(file.type);
-    if(!validName && !validType){
-      setStatus('Formato não suportado. Use JPG, JPEG, PNG ou HEIC.', true);
-      return;
+    const SIZE = 1080;
+    const FRAME_PATH = 'imagens/perfil.png';
+
+    const previewCanvas = document.getElementById('previewCanvas');
+    const previewCtx = previewCanvas.getContext('2d');
+    const editorCanvas = document.getElementById('editorCanvas');
+    const editorCtx = editorCanvas.getContext('2d');
+    const outputCanvas = document.getElementById('outputCanvas');
+    const outputCtx = outputCanvas.getContext('2d');
+
+    const fileInput = document.getElementById('file');
+    const chooseBtn = document.getElementById('choose');
+    const replaceBtn = document.getElementById('replace');
+    const editBtn = document.getElementById('edit');
+    const downloadBtn = document.getElementById('download');
+    const postActions = document.getElementById('postActions');
+    const statusEl = document.getElementById('status');
+    const previewTag = document.getElementById('previewTag');
+    const loader = document.getElementById('loader');
+    const loaderText = document.getElementById('loaderText');
+    const dropZone = document.getElementById('dropZone');
+
+    const modal = document.getElementById('editorModal');
+    const closeEditorBtn = document.getElementById('closeEditor');
+    const doneBtn = document.getElementById('done');
+    const resetBtn = document.getElementById('reset');
+    const minusBtn = document.getElementById('minus');
+    const plusBtn = document.getElementById('plus');
+    const zoomSlider = document.getElementById('zoom');
+    const zoomText = document.getElementById('zoomText');
+    const zoomValue = document.getElementById('zoomValue');
+
+    let frame = null;
+    let photo = null;
+    let photoURL = null;
+    let scale = 1;
+    let panX = 0;
+    let panY = 0;
+
+    let dragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragBaseX = 0;
+    let dragBaseY = 0;
+    const pointers = new Map();
+    let pinchStartDistance = null;
+    let pinchStartScale = 1;
+
+    function setStatus(message,error=false){
+      statusEl.textContent = message;
+      statusEl.classList.toggle('error',error);
     }
-    setLoading(true, /\.(heic|heif)$/i.test(file.name||'') ? 'Convertendo HEIC...' : 'Carregando imagem...');
-    const blob = await normalizeFile(file);
-    const url = URL.createObjectURL(blob);
-    const img = await imageFromURL(url);
-    if(photoURL) URL.revokeObjectURL(photoURL);
-    photoURL = url;
-    photo = img;
-    canvas.classList.remove('no-photo');
-    resetAdjustments();
-    controls.classList.add('visible');
-    updateDownloadState();
-    setStatus(frame ? 'Imagem carregada. Ajuste a foto e role a página fora da prévia.' : 'Imagem carregada, mas falta imagens/perfil.png.', !frame);
-    fileInput.value = '';
-  }catch(err){
-    console.error(err);
-    setStatus('Não foi possível abrir a imagem. Tente outro arquivo JPG, PNG ou HEIC.', true);
-  }finally{
-    setLoading(false);
-  }
-}
-function canvasPoint(event){
-  const r = canvas.getBoundingClientRect();
-  return {x:(event.clientX-r.left)*SIZE/r.width, y:(event.clientY-r.top)*SIZE/r.height};
-}
+    function setLoading(active,message='Processando imagem...'){
+      loader.classList.toggle('visible',active);
+      loaderText.textContent = message;
+    }
+    function baseRatio(){
+      if(!photo) return 1;
+      return Math.max(SIZE/photo.naturalWidth,SIZE/photo.naturalHeight);
+    }
+    function clampPan(){
+      if(!photo) return;
+      const ratio = baseRatio()*scale;
+      const w = photo.naturalWidth*ratio;
+      const h = photo.naturalHeight*ratio;
+      const maxX = Math.max(0,(w-SIZE)/2);
+      const maxY = Math.max(0,(h-SIZE)/2);
+      panX = Math.max(-maxX,Math.min(maxX,panX));
+      panY = Math.max(-maxY,Math.min(maxY,panY));
+    }
+    function drawScene(ctx){
+      ctx.clearRect(0,0,SIZE,SIZE);
+      const g = ctx.createLinearGradient(0,0,SIZE,SIZE);
+      g.addColorStop(0,'#eee5d8');
+      g.addColorStop(1,'#d8c6aa');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,SIZE,SIZE);
 
-chooseBtn.addEventListener('click',()=>fileInput.click());
-replaceBtn.addEventListener('click',()=>fileInput.click());
-dropZone.addEventListener('click',()=>fileInput.click());
-dropZone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fileInput.click();}});
-fileInput.addEventListener('change',()=>loadSelectedFile(fileInput.files?.[0]));
+      if(photo){
+        clampPan();
+        const ratio = baseRatio()*scale;
+        const w = photo.naturalWidth*ratio;
+        const h = photo.naturalHeight*ratio;
+        ctx.drawImage(photo,(SIZE-w)/2+panX,(SIZE-h)/2+panY,w,h);
+      }else{
+        ctx.fillStyle='#756c59';
+        ctx.textAlign='center';
+        ctx.font='700 38px Arial';
+        ctx.fillText('SUA FOTO AQUI',SIZE/2,SIZE/2-3);
+        ctx.font='500 22px Arial';
+        ctx.fillText('Escolha uma imagem para começar',SIZE/2,SIZE/2+38);
+      }
+      if(frame) ctx.drawImage(frame,0,0,SIZE,SIZE);
+    }
+    function redraw(){
+      drawScene(previewCtx);
+      drawScene(editorCtx);
+    }
+    function updateDownload(){
+      downloadBtn.disabled = !(frame && photo);
+    }
+    function loadFrame(){
+      const img = new Image();
+      img.onload = ()=>{
+        frame = img;
+        redraw();
+        updateDownload();
+        setStatus(photo?'Foto pronta. Ajuste o enquadramento se desejar.':'Moldura carregada. Escolha sua foto para começar.');
+      };
+      img.onerror = ()=>{
+        frame = null;
+        redraw();
+        updateDownload();
+        setStatus('Moldura não encontrada: confira imagens/perfil.png.',true);
+      };
+      img.src = FRAME_PATH + '?v=' + Date.now();
+    }
+    function resetAdjustments(){
+      scale=1;panX=0;panY=0;
+      setZoomUI(100);
+      redraw();
+    }
+    function setZoomUI(percent){
+      const p = Math.max(100,Math.min(400,Math.round(percent)));
+      scale = p/100;
+      clampPan();
+      zoomSlider.value=String(p);
+      zoomText.textContent=p+'%';
+      zoomValue.textContent=p+'%';
+      redraw();
+    }
+    function imageFromURL(url){
+      return new Promise((resolve,reject)=>{
+        const img=new Image();
+        img.onload=()=>resolve(img);
+        img.onerror=()=>reject(new Error('Não foi possível abrir a imagem.'));
+        img.src=url;
+      });
+    }
+    async function normalizeFile(file){
+      const isHEIC = /\.(heic|heif)$/i.test(file.name||'') || ['image/heic','image/heif'].includes(file.type);
+      if(!isHEIC) return file;
+      if(typeof heic2any!=='function') throw new Error('Conversor HEIC indisponível.');
+      setLoading(true,'Convertendo HEIC...');
+      const converted = await heic2any({blob:file,toType:'image/jpeg',quality:.95});
+      return Array.isArray(converted)?converted[0]:converted;
+    }
+    async function loadSelectedFile(file){
+      if(!file) return;
+      const validName=/\.(jpg|jpeg|png|heic|heif)$/i.test(file.name||'');
+      const validType=['image/jpeg','image/png','image/heic','image/heif'].includes(file.type);
+      if(!validName&&!validType){
+        setStatus('Formato não suportado. Use JPG, JPEG, PNG ou HEIC.',true);
+        return;
+      }
+      try{
+        setLoading(true,/\.(heic|heif)$/i.test(file.name||'')?'Convertendo HEIC...':'Carregando imagem...');
+        const blob=await normalizeFile(file);
+        const url=URL.createObjectURL(blob);
+        const img=await imageFromURL(url);
+        if(photoURL) URL.revokeObjectURL(photoURL);
+        photoURL=url;
+        photo=img;
+        resetAdjustments();
+        previewTag.textContent='Prévia da foto';
+        postActions.classList.add('visible');
+        updateDownload();
+        setStatus(frame?'Foto carregada. Toque em “Ajustar enquadramento” se precisar.':'Foto carregada, mas falta imagens/perfil.png.',!frame);
+        fileInput.value='';
+      }catch(err){
+        console.error(err);
+        setStatus('Não foi possível abrir essa imagem. Tente outro arquivo.',true);
+      }finally{
+        setLoading(false);
+      }
+    }
+    function openEditor(){
+      if(!photo) return;
+      redraw();
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+      closeEditorBtn.focus({preventScroll:true});
+    }
+    function closeEditor(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+      redraw();
+    }
+    function pointOnEditor(e){
+      const r=editorCanvas.getBoundingClientRect();
+      return {x:(e.clientX-r.left)*SIZE/r.width,y:(e.clientY-r.top)*SIZE/r.height};
+    }
 
-['dragenter','dragover'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.add('dragover');}));
-['dragleave','drop'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.remove('dragover');}));
-dropZone.addEventListener('drop',e=>loadSelectedFile(e.dataTransfer.files?.[0]));
+    chooseBtn.addEventListener('click',()=>fileInput.click());
+    replaceBtn.addEventListener('click',()=>fileInput.click());
+    editBtn.addEventListener('click',openEditor);
+    closeEditorBtn.addEventListener('click',closeEditor);
+    doneBtn.addEventListener('click',closeEditor);
+    resetBtn.addEventListener('click',resetAdjustments);
+    minusBtn.addEventListener('click',()=>setZoomUI(scale*100-10));
+    plusBtn.addEventListener('click',()=>setZoomUI(scale*100+10));
+    zoomSlider.addEventListener('input',()=>setZoomUI(Number(zoomSlider.value)));
 
-zoomSlider.addEventListener('input',()=>setZoom(zoomSlider.value));
-minusBtn.addEventListener('click',()=>setZoom(Math.round(scale*100)-10));
-plusBtn.addEventListener('click',()=>setZoom(Math.round(scale*100)+10));
-resetBtn.addEventListener('click',resetAdjustments);
+    dropZone.addEventListener('click',()=>fileInput.click());
+    dropZone.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();fileInput.click();}
+    });
+    fileInput.addEventListener('change',()=>loadSelectedFile(fileInput.files?.[0]));
+    ['dragenter','dragover'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.add('dragover')}));
+    ['dragleave','drop'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.remove('dragover')}));
+    dropZone.addEventListener('drop',e=>loadSelectedFile(e.dataTransfer.files?.[0]));
 
-canvas.addEventListener('pointerdown',e=>{
-  if(!photo) return;
-  dragging = true;
-  const p = canvasPoint(e);
-  startX = p.x; startY = p.y; baseX = panX; baseY = panY;
-  canvas.setPointerCapture(e.pointerId);
-});
-canvas.addEventListener('pointermove',e=>{
-  if(!dragging || !photo) return;
-  const p = canvasPoint(e);
-  panX = baseX + p.x - startX;
-  panY = baseY + p.y - startY;
-  clampPan();
-  draw();
-});
-function stopDrag(){dragging=false}
-canvas.addEventListener('pointerup',stopDrag);
-canvas.addEventListener('pointercancel',stopDrag);
-canvas.addEventListener('lostpointercapture',stopDrag);
-canvas.addEventListener('wheel',e=>{
-  if(!photo) return;
-  e.preventDefault();
-  setZoom(Math.round(scale*100) + (e.deltaY<0 ? 10 : -10));
-},{passive:false});
+    editorCanvas.addEventListener('pointerdown',e=>{
+      if(!photo) return;
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      dragging=true;
+      const p=pointOnEditor(e);
+      dragStartX=p.x;dragStartY=p.y;dragBaseX=panX;dragBaseY=panY;
+      editorCanvas.setPointerCapture(e.pointerId);
+    });
+    editorCanvas.addEventListener('pointermove',e=>{
+      if(!photo||!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
 
-// Pinch-to-zoom support
-let pinchStartDistance = null;
-let pinchStartScale = 1;
-const activePointers = new Map();
-canvas.addEventListener('pointerdown', e => activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY}));
-canvas.addEventListener('pointermove', e => {
-  if(!activePointers.has(e.pointerId)) return;
-  activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(activePointers.size===2 && photo){
-    const pts=[...activePointers.values()];
-    const d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
-    if(pinchStartDistance===null){pinchStartDistance=d;pinchStartScale=scale;}
-    else setZoom(Math.round(pinchStartScale*(d/pinchStartDistance)*100));
-  }
-});
-['pointerup','pointercancel','lostpointercapture'].forEach(type=>canvas.addEventListener(type,e=>{
-  activePointers.delete(e.pointerId);
-  if(activePointers.size<2) pinchStartDistance=null;
-}));
+      if(pointers.size===2){
+        const pts=[...pointers.values()];
+        const d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+        if(pinchStartDistance===null){
+          pinchStartDistance=d;
+          pinchStartScale=scale;
+        }else{
+          setZoomUI(pinchStartScale*(d/pinchStartDistance)*100);
+        }
+        return;
+      }
+      if(!dragging) return;
+      const p=pointOnEditor(e);
+      panX=dragBaseX+p.x-dragStartX;
+      panY=dragBaseY+p.y-dragStartY;
+      clampPan();
+      redraw();
+    });
+    function endPointer(e){
+      pointers.delete(e.pointerId);
+      if(pointers.size<2) pinchStartDistance=null;
+      if(pointers.size===0) dragging=false;
+    }
+    editorCanvas.addEventListener('pointerup',endPointer);
+    editorCanvas.addEventListener('pointercancel',endPointer);
+    editorCanvas.addEventListener('lostpointercapture',endPointer);
 
-downloadBtn.addEventListener('click',async()=>{
-  if(!photo || !frame){setStatus('Adicione uma foto e a moldura antes de baixar.', true);return;}
-  downloadBtn.disabled = true;
-  const originalText = downloadBtn.textContent;
-  downloadBtn.textContent = 'GERANDO PNG...';
-  setLoading(true,'Preparando arquivo...');
-  try{
-    draw();
-    const blob = await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Falha ao gerar PNG')),'image/png'));
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'CIBE-MG-2027-Perfil.png';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),3000);
-    setStatus('Download iniciado com sucesso.');
-  }catch(err){
-    console.error(err);
-    setStatus('Não foi possível gerar o PNG. Tente novamente.', true);
-  }finally{
-    setLoading(false);
-    downloadBtn.textContent = originalText;
-    updateDownloadState();
-  }
-});
+    editorCanvas.addEventListener('wheel',e=>{
+      if(!photo) return;
+      e.preventDefault();
+      setZoomUI(scale*100+(e.deltaY<0?10:-10));
+    },{passive:false});
 
-window.addEventListener('beforeunload',()=>{if(photoURL) URL.revokeObjectURL(photoURL);});
+    modal.addEventListener('click',e=>{
+      if(e.target===modal) closeEditor();
+    });
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&modal.classList.contains('open')) closeEditor();
+    });
 
-draw();
-loadFrame();
-</script>
+    downloadBtn.addEventListener('click',async()=>{
+      if(!photo||!frame){setStatus('Escolha uma foto antes de baixar.',true);return;}
+      const old=downloadBtn.textContent;
+      downloadBtn.disabled=true;
+      downloadBtn.textContent='GERANDO PNG...';
+      setLoading(true,'Preparando arquivo...');
+      try{
+        drawScene(outputCtx);
+        const blob=await new Promise((resolve,reject)=>outputCanvas.toBlob(b=>b?resolve(b):reject(new Error('Falha ao gerar PNG')),'image/png'));
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=url;
+        a.download='CIBE-MG-2027-Perfil.png';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),3000);
+        setStatus('Download iniciado com sucesso.');
+      }catch(err){
+        console.error(err);
+        setStatus('Não foi possível gerar o PNG. Tente novamente.',true);
+      }finally{
+        setLoading(false);
+        downloadBtn.textContent=old;
+        updateDownload();
+      }
+    });
+
+    window.addEventListener('beforeunload',()=>{if(photoURL) URL.revokeObjectURL(photoURL)});
+
+    redraw();
+    loadFrame();
+  </script>
 </body>
 </html>
+
