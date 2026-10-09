@@ -97,9 +97,12 @@
     }
     .hero-olive{
       position:absolute;
-      right:-43px;
-      top:-10px;
+      right:0;
+      top:0;
       width:180px;
+      max-height:100%;
+      object-fit:contain;
+      object-position:right top;
       opacity:.72;
       z-index:1;
       pointer-events:none;
@@ -427,6 +430,8 @@
       font-weight:800;
     }
     .social-card svg{width:14px;height:14px;flex:none}
+    .president-socials{margin-top:10px}
+    .developer-socials{margin-top:8px}
     .footer-note{margin:12px 0 0;padding:0 30px;color:#d9c8a6;font-size:8.5px;line-height:1.4;opacity:.9}
     .footer-logo{
       position:absolute;
@@ -438,9 +443,12 @@
     }
     .footer-olive{
       position:absolute;
-      right:-42px;
-      bottom:-18px;
+      right:0;
+      bottom:0;
       width:145px;
+      max-height:100%;
+      object-fit:contain;
+      object-position:right bottom;
       opacity:.7;
       z-index:1;
       pointer-events:none;
@@ -453,7 +461,7 @@
       .hero-copy{padding-left:28px}
       .hero-copy .kicker{font-size:11px;max-width:none}
       .hero-copy h1{font-size:58px}
-      .hero-olive{width:330px;right:-50px}
+      .hero-olive{width:330px;right:0;top:0}
       main{padding:34px 20px 0}
       .intro{padding-bottom:24px}
       .intro h2{font-size:56px}
@@ -474,7 +482,7 @@
       .developer{font-size:12px}.developer-name{font-size:26px}
       .social-card{font-size:11px;min-height:42px;padding:9px 12px}
       .footer-logo{width:88px;left:18px;bottom:18px}
-      .footer-olive{width:260px;right:-50px}
+      .footer-olive{width:260px;right:0;bottom:0}
     }
 
     @media(max-width:360px){
@@ -553,10 +561,8 @@
     <img class="footer-olive" src="imagens/oliva.png" alt="" aria-hidden="true" onerror="this.style.display='none'">
     <div class="footer-inner">
       <h3 class="footer-president">Presidente Pastora Elizângela Neves</h3>
-      <div class="footer-line"></div>
-      <p class="developer">Desenvolvido por <span class="developer-name">David Amorim</span></p>
 
-      <div class="socials" aria-label="Instagrams">
+      <div class="socials president-socials" aria-label="Instagram da CIBE MG e da Pastora Elizângela Neves">
         <a class="social-card" href="https://www.instagram.com/cibe.mg/" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           @cibe.mg
@@ -565,6 +571,13 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           @_elizangelaneves
         </a>
+      </div>
+
+      <div class="footer-line"></div>
+
+      <p class="developer">Desenvolvido por <span class="developer-name">David Amorim</span></p>
+
+      <div class="socials developer-socials" aria-label="Instagram de David Amorim">
         <a class="social-card" href="https://www.instagram.com/_david__amorim_/" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           @_david__amorim_
@@ -912,4 +925,3 @@
   </script>
 </body>
 </html>
-
